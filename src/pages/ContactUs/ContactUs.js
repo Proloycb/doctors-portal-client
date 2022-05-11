@@ -6,23 +6,23 @@ const ContactUs = () => {
         <section style={{
             background: `url(${appointment})`
         }} className='my-24'>
-            <div class="hero min-h-screen">
+            <div className="hero min-h-screen">
                 <div>
                     <h4 className='text-xl text-center text-primary font-bold'>Contact Us</h4>
                     <h2 className='text-3xl text-white'>Stay connected with us</h2>
                     <div>
-                        <div class="card-body">
-                            <div class="form-control">
-                                <input type="text" placeholder="Email Address" class="input input-bordered" />
+                        <div className="card-body">
+                            <div className="form-control">
+                                <input type="text" placeholder="Email Address" className="input input-bordered" />
                             </div>
-                            <div class="form-control">
-                                <input type="text" placeholder="Subject" class="input input-bordered" />
+                            <div className="form-control">
+                                <input type="text" placeholder="Subject" className="input input-bordered" />
                             </div>
-                            <div class="form-control">
-                                <textarea placeholder="Your message" class="input input-bordered" />
+                            <div className="form-control">
+                                <textarea placeholder="Your message" className="input input-bordered" />
                             </div>
-                            <div class="mt-6 text-center">
-                                <button class="btn btn-primary text-white">Submit</button>
+                            <div className="mt-6 text-center">
+                                <button className="btn btn-primary text-white">Submit</button>
                             </div>
                         </div>
                     </div>
