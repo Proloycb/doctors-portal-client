@@ -53,8 +53,6 @@ const MyAppointment = () => {
                                 <td>{a.treatment}</td>
                             </tr>)
                         }
-                        
-                        
                     </tbody>
                 </table>
             </div>
