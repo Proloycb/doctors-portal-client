@@ -4,7 +4,7 @@ import Loading from '../Shared/Loading/Loading';
 import UserRow from './UserRow';
 
 const Users = () => {
-    const { data: users, isLoading, refetch } = useQuery('users', () => fetch('http://localhost:5000/user',{
+    const { data: users, isLoading, refetch } = useQuery('users', () => fetch('https://dry-earth-19840.herokuapp.com/user',{
         method: 'GET',
         headers: {
             'authorization': `Bearer ${localStorage.getItem('accessToken')}`
@@ -15,9 +15,9 @@ const Users = () => {
     }
     return (
         <div>
-            <h1>All Users: {users.length}</h1>
-            <div class="overflow-x-auto">
-                <table class="table w-full">
+            <h1 className='text-2xl'>All Users: {users.length}</h1>
+            <div className="overflow-x-auto">
+                <table className="table w-full">
                     <thead>
                         <tr>
                             <th></th>
