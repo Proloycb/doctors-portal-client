@@ -1,14 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSendPasswordResetEmail, useSignInWithEmailAndPassword, useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import auth from '../../firebase.init';
 import { useForm } from "react-hook-form";
 import Loading from '../Shared/Loading/Loading';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import useToken from '../../hooks/useToken';
+import { toast } from 'react-toastify';
 
 const Login = () => {
     const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
-    const { register, formState: { errors }, handleSubmit } = useForm();
+    const { register, formState: { errors }, handleSubmit, getValues } = useForm();
     const [
         signInWithEmailAndPassword,
         user,
@@ -17,6 +18,7 @@ const Login = () => {
     ] = useSignInWithEmailAndPassword(auth);
     const [sendPasswordResetEmail, sending] = useSendPasswordResetEmail(auth);
     const [token] = useToken(user || gUser);
+    // const [isEmail, setIsEmail] = useState('');
 
     let signInError;
     const navigate = useNavigate();
@@ -41,10 +43,21 @@ const Login = () => {
         console.log(data);
         await signInWithEmailAndPassword(data.email, data.password);
     }
-    const handleReset = (event) => {
-        const emailUser = event.target.email.value;
-        console.log(emailUser)
-        sendPasswordResetEmail(emailUser);
+    // const onChangeEmail = (e) => {
+    //     const email = e.target.value;
+    //     console.log(email)
+    //     setIsEmail(email);
+    // }
+    const handleReset = async () => {
+        const isEmail = getValues("email")
+        console.log(isEmail)
+        if (isEmail) {
+            await sendPasswordResetEmail(isEmail);
+            toast.success('Sent email')
+        }
+        else {
+            toast.error('Please enter your email')
+        }
     }
 
     return (
@@ -58,10 +71,6 @@ const Login = () => {
                                 <span className="label-text">Email</span>
                             </label>
                             <input
-                                type="email"
-                                name="email"
-                                placeholder="Your email"
-                                className="input input-bordered w-full max-w-xs"
                                 {...register("email", {
                                     required: {
                                         value: true,
@@ -72,6 +81,11 @@ const Login = () => {
                                         message: 'Provide a valid email'
                                     }
                                 })}
+                                type="email"
+                                name="email"
+                                // onChange={onChangeEmail}
+                                placeholder="Your email"
+                                className="input input-bordered w-full max-w-xs"
                             />
                             <label className="label">
                                 {errors.email?.type === 'required' && <span className="label-text-alt text-red-500">{errors.email.message}</span>}
@@ -102,9 +116,9 @@ const Login = () => {
                                 {errors.password?.type === 'minLength' && <span className="label-text-alt text-red-500">{errors.password.message}</span>}
                             </label>
                         </div>
-                        <p><small onClick={handleReset}>Forgot Password?</small></p>
+                        <p><small>Forgot Password? <button onClick={handleReset} className='text-primary'>Reset Password</button></small></p>
                         {signInError}
-                        <input className='btn w-full max-w-xs' type="submit" value="Login" />
+                        <input className='btn w-full max-w-xs mt-1' type="submit" value="Login" />
                     </form>
                     <p><small>New to Doctors Portal? <Link className='text-secondary' to="/signup">Create New Account</Link></small></p>
                     <div className="divider">OR</div>
